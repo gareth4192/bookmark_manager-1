@@ -18,9 +18,19 @@ feature 'display a list of links' do
     fill_in(:url, with: 'google.com')
     fill_in(:title, with: 'live')
     click_button('Submit')
-  
+
     within 'ul#links' do
         expect(page).to have_content('live')
       end
+  end
+
+  scenario 'add a tag to a link' do
+    visit '/links/add'
+    fill_in(:url, with: 'google.com')
+    fill_in(:title, with: 'live')
+    fill_in(:tags, with: 'search')
+    click_button('Submit')
+    link = Link.last
+    expect(link.tags.map(&:tags)).to include('search')
   end
 end
