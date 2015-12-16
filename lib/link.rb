@@ -1,6 +1,6 @@
 require 'data_mapper'
 require 'dm-postgres-adapter'
-require './app/app'
+
 
 class Link
   include DataMapper::Resource
