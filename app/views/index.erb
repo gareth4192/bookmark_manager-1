@@ -2,6 +2,11 @@
   <head>
   </head>
   <body>
-    <a href="/links">click this</a>
+    <ul id="links">
+      <% @links.each do |link| %>
+        <li>Title: <%= link.title %> </li>
+        <li>URL: <%= link.url %> </li>
+      <% end %>
+    </ul>
   </body>
 </html>

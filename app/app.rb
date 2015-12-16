@@ -3,13 +3,13 @@ require 'sinatra/base'
 require './lib/link.rb'
 
 class Bookmark < Sinatra::Base
-  get '/' do
-    erb(:index)
-  end
+  # get '/' do
+  #   erb(:index)
+  # end
 
   get '/links' do
     @links = Link.all
-    erb(:links)
+    erb(:index)
   end
 
   get '/add' do
