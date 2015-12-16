@@ -12,14 +12,15 @@ feature 'display a list of links' do
     end
   end
 
-  scenario 'add a new link' do
-    visit '/add'
+  scenario 'add a website to the bookmark manager' do
+    visit '/links/add'
+    #click_button('Add link')
     fill_in(:url, with: 'google.com')
-    fill_in(:title, with: 'google')
+    fill_in(:title, with: 'live')
     click_button('Submit')
-    expect(page.status_code).to eq 200
+  
     within 'ul#links' do
-      expect(page).to have_content('google')
-    end
+        expect(page).to have_content('live')
+      end
   end
 end
