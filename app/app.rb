@@ -2,10 +2,10 @@ ENV['RACK_ENV'] ||= 'development'
 require 'sinatra/base'
 require './app/model/link.rb'
 
-  class Bookmark < Sinatra::Base
-    # get '/' do
-    #   erb(:index)
-    # end
+class Bookmark < Sinatra::Base
+  # get '/' do
+  #   erb(:index)
+  # end
   get '/links' do
     @links = Link.all
     erb :'links/index'
@@ -22,4 +22,4 @@ require './app/model/link.rb'
 
   # start the server if ruby file executed directly
   run! if app_file == $0
-  end
+end
