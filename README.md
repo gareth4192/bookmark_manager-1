@@ -14,27 +14,25 @@ User Stories
 ```sh
 As a User
 So that I can keep track of my bookmarks
-I would like to see all my bookmarks in a webpage
+I want to see them displayed chronologically on a webpage
 ```
+
 ```sh
 As a User
-So that I do not have to spend time searching for recent bookmarks I added
-I would like to see my bookmarks in a chronological order
+So that I can add new bookmarks
+I want to be able to add and title bookmarks to my page
 ```
+
 ```sh
 As a User
-So I can remember a particular link
-I would like to add a new bookmark with a title and a link to my list
+So that I can categorize my bookmarks,
+I would like to be able to tag my bookmarks
 ```
+
 ```sh
 As a User
-So that I can refer to only a particular category of bookmarks
-I would like to have the possibility to tag my bookmarks
-```
-```sh
-As a User
-So that I can see only a particular category of bookmarks
-I would like to filter my bookmarks by tag
+So that I can find the bookmark I want quickly
+I would like to be able to filter by tags
 ```
 
 Contributors
