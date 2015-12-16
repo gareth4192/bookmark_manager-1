@@ -11,4 +11,15 @@ feature 'display a list of links' do
       expect(page).to have_content('Makers Academy')
     end
   end
+
+  scenario 'add a new link' do
+    visit '/add'
+    fill_in(:url, with: 'google.com')
+    fill_in(:title, with: 'google')
+    click_button('Submit')
+    expect(page.status_code).to eq 200
+    within 'ul#links' do
+      expect(page).to have_content('google')
+    end
+  end
 end
