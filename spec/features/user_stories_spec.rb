@@ -2,7 +2,7 @@
 # So that I can keep track of my bookmarks
 # I want to see them displayed chronologically on a webpage
 
-feature 'display a list of links' do
+feature 'bookmark manager' do
   scenario 'user is able to see list of bookmarks on homepage' do
     Link.create(url: 'http://www.makersacademy.com', title: 'Makers Academy')
     visit '/links'
@@ -34,14 +34,13 @@ feature 'display a list of links' do
     expect(link.tags.map(&:tags)).to include('search')
   end
 
-  before(:each) do
+
+
+scenario 'I can filter links by tag' do
   Link.create(url: 'http://www.makersacademy.com', title: 'Makers Academy', tags: [Tag.first_or_create(tags: 'education')])
   Link.create(url: 'http://www.google.com', title: 'Google', tags: [Tag.first_or_create(tags: 'search')])
   Link.create(url: 'http://www.zombo.com', title: 'This is Zombocom', tags: [Tag.first_or_create(tags: 'bubbles')])
   Link.create(url: 'http://www.bubble-bobble.com', title: 'Bubble Bobble', tags: [Tag.first_or_create(tags: 'bubbles')])
-end
-
-scenario 'I can filter links by tag' do
   visit '/tags/bubbles'
 
   expect(page.status_code).to eq(200)
@@ -62,5 +61,28 @@ scenario 'add a tag to a link' do
   link = Link.last
   expect(link.tags.map(&:tags)).to include('search', 'best')
 end
+
+feature 'User sign up' do
+  scenario 'I can sign up as a new user' do
+    visit '/register'
+
+    fill_in :email,    with: 'alice@example.com'
+    fill_in :password, with: 'oranges!'
+    fill_in :password_confirmation, with: 'oranges!'
+    expect { click_button 'Log in' }.to change(User, :count).by(1)
+    expect(page).to have_content('Welcome, alice@example.com')
+    expect(User.first.email).to eq('alice@example.com')
+  end
+end
+
+scenario 'requires a matching confirmation password' do
+    visit '/register'
+    fill_in :email, with: 'email'
+    fill_in :password, with: 'password'
+    fill_in :password_confirmation, with: 'passwor'
+
+    expect { click_button 'Log in' }.not_to change(User, :count)
+
+  end
 
 end
