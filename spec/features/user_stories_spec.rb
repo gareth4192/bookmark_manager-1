@@ -80,9 +80,25 @@ scenario 'requires a matching confirmation password' do
     fill_in :email, with: 'email'
     fill_in :password, with: 'password'
     fill_in :password_confirmation, with: 'passwor'
-
     expect { click_button 'Log in' }.not_to change(User, :count)
-
+    expect(current_path).to eq '/register'
+    expect(page).to have_content 'Password and confirmation password do not match'
   end
+
+scenario "I can't sign up without an email address" do
+  visit '/register'
+  fill_in :email, with: nil
+  fill_in :password, with: 'password'
+  fill_in :password_confirmation, with: 'password'
+  expect { click_button 'Log in' }.not_to change(User, :count)
+end
+
+scenario "I can't sign up without an email address" do
+  visit '/register'
+  fill_in :email, with: 'invalid@invaild'
+  fill_in :password, with: 'password'
+  fill_in :password_confirmation, with: 'password'
+  expect { click_button 'Log in' }.not_to change(User, :count)
+end
 
 end
