@@ -65,11 +65,10 @@ end
 feature 'User sign up' do
   scenario 'I can sign up as a new user' do
     visit '/register'
-
     fill_in :email,    with: 'alice@example.com'
     fill_in :password, with: 'oranges!'
     fill_in :password_confirmation, with: 'oranges!'
-    expect { click_button 'Log in' }.to change(User, :count).by(1)
+    expect { click_button 'Sign up' }.to change(User, :count).by(1)
     expect(page).to have_content('Welcome, alice@example.com')
     expect(User.first.email).to eq('alice@example.com')
   end
@@ -80,9 +79,9 @@ scenario 'requires a matching confirmation password' do
     fill_in :email, with: 'email'
     fill_in :password, with: 'password'
     fill_in :password_confirmation, with: 'passwor'
-    expect { click_button 'Log in' }.not_to change(User, :count)
+    expect { click_button 'Sign up' }.not_to change(User, :count)
     expect(current_path).to eq '/register'
-    expect(page).to have_content 'Password and confirmation password do not match'
+    expect(page).to have_content 'Password does not match the confirmation'
   end
 
 scenario "I can't sign up without an email address" do
@@ -90,15 +89,39 @@ scenario "I can't sign up without an email address" do
   fill_in :email, with: nil
   fill_in :password, with: 'password'
   fill_in :password_confirmation, with: 'password'
-  expect { click_button 'Log in' }.not_to change(User, :count)
+  expect { click_button 'Sign up' }.not_to change(User, :count)
+  expect(page).to have_content('Email must not be blank')
 end
 
-scenario "I can't sign up without an email address" do
+scenario "I can't sign up with an invalid email address" do
   visit '/register'
   fill_in :email, with: 'invalid@invaild'
   fill_in :password, with: 'password'
   fill_in :password_confirmation, with: 'password'
-  expect { click_button 'Log in' }.not_to change(User, :count)
+  expect { click_button 'Sign up' }.not_to change(User, :count)
+  expect(page).to have_content('Email has an invalid format')
+
 end
+
+scenario 'I cannot sign up with an existing email' do
+  visit '/register'
+  fill_in :email, with: 'chloe@live.com'
+  fill_in :password, with: 'password'
+  fill_in :password_confirmation, with: 'password'
+  click_button 'Sign up'
+  visit '/register'
+  fill_in :email, with: 'chloe@live.com'
+  fill_in :password, with: 'password'
+  fill_in :password_confirmation, with: 'password'
+  expect { click_button 'Sign up' }.to_not change(User, :count)
+  expect(page).to have_content('Email is already taken')
+end
+
+
+scenario 'with log in details' do
+  sign_in
+  expect(page).to have_content "Welcome, testemail@example.com"
+end
+
 
 end
